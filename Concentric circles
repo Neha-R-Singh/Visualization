@@ -1,0 +1,39 @@
+import matplotlib.pyplot as plt
+from matplotlib.patches import Circle
+
+# Setup full circular diagram
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.set_xlim(-7, 7)
+ax.set_ylim(-7, 7)
+ax.axis('off')
+
+# Define concentric layers for 4 levels of RAG architectures (from innermost to outermost)
+layers = [
+    ("Single-Stage RAG", 2.0, "#99ccff"),
+    ("Multi-Stage RAG", 3.0, "#66b2ff"),
+    ("Hybrid RAG", 4.0, "#3399ff"),
+    ("Agentic RAG", 5.0, "#004080")
+]
+
+# Draw concentric circles
+for label, radius, color in reversed(layers):
+    circle = Circle((0, 0), radius, color=color, ec='white', lw=2)
+    ax.add_patch(circle)
+
+# Label positions and connectors for each layer with use cases
+label_data = [
+    ("Single-Stage RAG", "FAQ Bots", 1.3, 0, 3.5, 0),
+    ("Multi-Stage RAG", "Knowledge Retrieval", 2.1, 2.1, 4.5, 4.5),
+    ("Hybrid RAG", "Enterprise Data Fusion", 0, 3.2, 0, 5.5),
+    ("Agentic RAG", "Autonomous Workflows", -3.5, 3.5, -6.0, 6.0),
+]
+
+# Draw lines and external labels with use cases
+for label, use_case, x0, y0, x1, y1 in label_data:
+    ax.plot([x0, x1], [y0, y1], color='black', lw=1)
+    ax.text(x1, y1 + 0.3, label, fontsize=11, va='center', ha='center',
+            bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.3'))
+    ax.text(x1, y1 - 0.3, use_case, fontsize=9, va='center', ha='center')
+
+plt.title("RAG Architecture Layers: From Basic to Agentic", fontsize=16, fontweight='bold')
+plt.show()
